@@ -2,6 +2,8 @@ const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
 const session = require('express-session');
+const fs = require('fs');
+const async = require('async');
 require('dotenv').config({ path: __dirname + './env' });
 
 const app = express();
@@ -34,3 +36,18 @@ db.connect((err) => {
 });
 
 const databaseErr = 'Failed to query database';
+
+/*
+app.get('/products/:id', (req, res) => {
+    db.query("SELECT name, price, quantity FROM products WHERE id = ?;", [req.params.id], (err, results) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send(databaseErr);
+        } else {
+            if (results.length === 0) res.status(404).send('Product not found');
+            else res.status(200).send(results[0]);
+        }
+    });
+
+});
+*/

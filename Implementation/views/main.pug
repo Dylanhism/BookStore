@@ -1,0 +1,19 @@
+html
+    head 
+        script(src='/client')
+    body
+        .userArea
+            .search
+                input#ISBN(placeholder='Type an ISBN')
+                button(onclick='ISBN()') Search ISBN
+                input#name(placeholder='Type a name')
+                button(onclick='bookName()') Search name
+                input#genre(placeholder='Type a genre')
+                button(onclick='genre()') Search genre
+                input#author(placeholder='Type an author')
+                button(onclick='author()') Search author
+            .results
+                if books
+                    for book in books 
+                        //create links to books in the dbms
+                        a(href="/books/"+book.ISBN style="display:block") #{book.name}, #{book.ISBN} 

@@ -1,0 +1,11 @@
+html
+    head
+        script(src='/client')
+    body
+        .book
+            if books
+                for book in books
+                    p#ISBN ISBN: #{book.ISBN}, Name: #{book.name}, Price: #{book.price}, Quantity #{quantities[book.ISBN]}
+                button#buy(onlick='') Buy all books
+            else 
+                p No books in cart

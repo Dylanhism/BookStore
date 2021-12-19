@@ -104,11 +104,30 @@ app.get('/client', (req, res) => { //sending javascript file
 	res.status(200).sendFile(__dirname + '/public/client.js');
 });
 
+app.get('/cart', (req, res) => {
+    // cartString = req.session.cart.join();
+    if (req.session.cart) {
+        let query = selectCmds[5].slice(0, selectCmds[5].length-3)+Object.keys(req.session.cart).join()+');';
+
+        db.query(query, (err, result) => {
+            res.status(200).render("cart", {books: result, quantities: req.session.cart});
+        });    
+    } else {
+        res.status(200).render('cart', {});
+    }
+    
+});
+
 app.post('/books', (req, res) => { //Store all ISBN into cart regardless of logged in or quantity of books is correct
     if (req.session.cart) {
-        req.session.cart.push(req.body.isbn); //session which temporarily holds data instead of putting carts into databases
+        if (req.session.cart[req.body.isbn] != undefined) {
+            req.session.cart[req.body.isbn] = req.session.cart[req.body.isbn]+1;
+        } else {
+            req.session.cart[req.body.isbn] = 1; //session which temporarily holds data instead of putting carts into databases
+        }
     } else {
-        req.session.cart = [req.body.isbn];
+        req.session.cart = {};
+        req.session.cart[req.body.isbn] = 1;
     }
     res.status(200).send();
 });

@@ -4,6 +4,7 @@
   "description": "COMP3005 final project",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Dylan Hughes, 101076692",
@@ -14,8 +15,10 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
+    "faker": "^5.5.3",
     "fs": "0.0.1-security",
     "mysql2": "^2.3.3",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "pug": "^3.0.2"
   }
 }

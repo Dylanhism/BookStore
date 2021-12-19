@@ -1,0 +1,14 @@
+html
+    head 
+        script(src='/client')
+    body
+        .book
+            p#ISBN ISBN: #{book.ISBN}
+            p#name Name: #{book.name}
+            p#author Author: #{book.author_name}
+            p#genre Genre: #{book.genre}
+            p#numPages Number of pages: #{book.num_pages}
+            p#publisher Publisher: #{book.publisher_name}
+            p#price Price: #{book.price}
+            p#quantity Quantity remaining: #{book.quantity}
+            button(onclick='addToCart()') Add to cart

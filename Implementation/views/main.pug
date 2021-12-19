@@ -17,3 +17,6 @@ html
                     for book in books 
                         //create links to books in the dbms
                         a(href="/books/"+book.ISBN style="display:block") #{book.name}, #{book.ISBN} 
+        .controlArea 
+            button#loginUser Login as test user 
+            button#loginOwner Login as test owner

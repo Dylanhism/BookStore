@@ -4,6 +4,7 @@ const cors = require('cors');
 const session = require('express-session');
 const fs = require('fs');
 const async = require('async');
+const e = require('express');
 require('dotenv').config({ path: __dirname + '/.env' });
 
 let app = express();
@@ -118,7 +119,15 @@ app.get('/cart', (req, res) => {
     
 });
 
-app.post('/books', (req, res) => { //Store all ISBN into cart regardless of logged in or quantity of books is correct
+app.get('/checkout', (req, res) => {
+    if (req.session.user == undefined) {
+        res.status(401).send('Login to checkout');
+    } else {
+        res.status(200).render('checkout');
+    }
+});
+
+app.post('/books/:ISBN', (req, res) => { //Store all ISBN into cart regardless of logged in or quantity of books is correct
     if (req.session.cart) {
         if (req.session.cart[req.body.isbn] != undefined) {
             req.session.cart[req.body.isbn] = req.session.cart[req.body.isbn]+1;
@@ -154,6 +163,13 @@ app.post('/owners', (req, res) => {
     });
 });
 
+app.post('/cart', (req, res) => {
+    if (req.session.user != undefined) {
+        res.status(302).send();
+    } else {
+        res.status(401).send();
+    }
+});
 
 
 

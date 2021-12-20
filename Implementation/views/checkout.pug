@@ -1,0 +1,9 @@
+html
+    head
+        script(src='/client')
+    body
+        .infoForm
+            input#billing(placeholder='Enter billing info..')
+            input#inputAddress(placeholder='Enter address to ship to..')
+        div 
+            button#checkoutSubmit(onclick='submitOrder()') Complete order

@@ -6,6 +6,6 @@ html
             if books
                 for book in books
                     p#ISBN ISBN: #{book.ISBN}, Name: #{book.name}, Price: #{book.price}, Quantity #{quantities[book.ISBN]}
-                button#buy(onlick='') Buy all books
+                button#buy(onclick='checkout()') Buy all books
             else 
                 p No books in cart

@@ -41,3 +41,36 @@ function addToCart() {
     let UserData = { 'isbn': window.location.pathname.slice(7) };
     xhttp.send(JSON.stringify(UserData)); //Send ISBN of book to the server
 }
+
+function loginUser() {
+    let xhttp = new XMLHttpRequest();
+    xhttp.open('POST', '/users', true);
+    xhttp.setRequestHeader('Content-Type', 'application/json');
+    xhttp.responseType = "json";
+    xhttp.onreadystatechange = function () {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            alert('Logged in as user');
+        } else if (xhttp.readyState == 4 && xhttp.status == 500) {
+            alert('Failed to log in');
+        }
+    }
+    let UserData = { 'username': 'user', 'password': 'password' };
+    xhttp.send(JSON.stringify(UserData)); //Send username/password to the server and login
+}
+
+function loginOwner() {
+    let xhttp = new XMLHttpRequest();
+    xhttp.open('POST', '/owners', true);
+    xhttp.setRequestHeader('Content-Type', 'application/json');
+    xhttp.responseType = "json";
+    xhttp.onreadystatechange = function () {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            alert('Logged in as owner');
+        } else if (xhttp.readyState == 4 && xhttp.status == 500) {
+            alert('Failed to log in');
+        }
+    }
+    let UserData = { 'username': 'admin', 'password': 'admin' };
+    xhttp.send(JSON.stringify(UserData)); //Send username/password to the server and login 
+}
+

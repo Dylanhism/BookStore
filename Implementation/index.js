@@ -132,6 +132,27 @@ app.post('/books', (req, res) => { //Store all ISBN into cart regardless of logg
     res.status(200).send();
 });
 
+app.post('/users', (req, res) => {
+    db.query(selectCmds[6], [req.body.username, req.body.password], (err, result) => {
+        if (result != undefined && result != []) {
+            req.session.user = 'user';
+            res.status(200).send();
+        } else {
+            res.status(500).send(); //shouldn't happen in test application
+        }
+    });
+});
+
+app.post('/owners', (req, res) => {
+    db.query(selectCmds[7], [req.body.username, req.body.password], (err, result) => {
+        if (result != undefined && result != []) {
+            req.session.owner = 'admin';
+            res.status(200).send();
+        } else {
+            res.status(500).send(); //shouldn't happen in test application
+        }
+    });
+});
 
 
 

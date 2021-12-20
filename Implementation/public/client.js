@@ -28,7 +28,7 @@ function author() {
 
 function addToCart() {
     let xhttp = new XMLHttpRequest();
-    xhttp.open('POST', '/books', true);
+    xhttp.open('POST', window.location.pathname, true);
     xhttp.setRequestHeader('Content-Type', 'application/json');
     xhttp.responseType = "json";
     xhttp.onreadystatechange = function () {
@@ -73,4 +73,42 @@ function loginOwner() {
     let UserData = { 'username': 'admin', 'password': 'admin' };
     xhttp.send(JSON.stringify(UserData)); //Send username/password to the server and login 
 }
+
+function checkout() { //Just a redirect when clicking checkout button on cart page. Verifies if logged in
+    let xhttp = new XMLHttpRequest();
+    xhttp.open('POST', '/cart', true);
+    xhttp.setRequestHeader('Content-Type', 'application/json');
+    xhttp.responseType = "json";
+    xhttp.onreadystatechange = function () {
+        if (xhttp.readyState == 4 && xhttp.status == 302) {
+            window.location.href = '/checkout';
+        } else if (xhttp.readyState == 4 && xhttp.status == 401) {
+            alert('You need to be logged in to checkout');
+        }
+    }
+    xhttp.send();
+}
+
+function submitOrder() {
+    let xhttp = new XMLHttpRequest();
+    xhttp.open('POST', '/checkout', true);
+    xhttp.setRequestHeader('Content-Type', 'application/json');
+    xhttp.responseType = "json";
+    xhttp.onreadystatechange = function () {
+        if (xhttp.readyState == 4 && xhttp.status == 302) {
+            alert('Your order shipping ID is: ');
+        } else if (xhttp.readyState == 4 && xhttp.status == 406) { //Happens when you request to buy more than the max amount of books in the store currently
+            alert('Some books in order could not be purchased. View cart to see remaining books');
+        }
+    }
+    let billingInfo = document.getElementById('billing');
+    let addressInfo = document.getElementById('inputAddress');
+    if (billingInfo.value == "" || addressInfo.value == "") {
+        alert('Please enter valid billing and shipping address');
+    } else {
+        let UserData = { billing: billingInfo.value, address: addressInfo };
+        xhttp.send(JSON.stringify(UserData)); //Send billing and address info to create a record in Order table    
+    }
+}
+
 

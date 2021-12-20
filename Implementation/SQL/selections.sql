@@ -6,3 +6,4 @@ SELECT * FROM Book B JOIN (Author A NATURAL JOIN Written_by W) ON B.ISBN=W.ISBN 
 SELECT ISBN, name, price FROM Book WHERE ISBN IN (?); /*For viewing cart items*/
 SELECT username FROM User WHERE username=? AND password=?; /*Get the username if username and password match for logins*/
 SELECT username FROM Owner WHERE username=? AND password=?; /*The same with owner accounts*/
+SELECT MAX(order_ID) AS order_ID FROM Orders; /*Using this to get last inserted to create order_contains record*/

@@ -41,11 +41,15 @@ db.connect((err) => { //attempt to connect to database
 
 const databaseErr = 'Failed to query database';
 let databaseSelects = fs.readFileSync("./SQL/selections.sql", {encoding: "UTF-8"}); //read selections.sql file
-var selectCmds = databaseSelects.split(";"); //turn it into seperate strings to be executable later
+let databaseInserts = fs.readFileSync("./SQL/insertions.sql", {encoding: "UTF-8"});
+let selectCmds = databaseSelects.split(";"); //turn it into seperate strings to be executable later
+let insertCmds = databaseInserts.split(";");
 selectCmds.forEach((command, index) => {
     selectCmds[index] = command+";";
 });
-selectCmds.pop();
+insertCmds.forEach((command, index) => {
+    insertCmds[index] = command+";";
+});
 
 app.get('/', (req, res) => { //very basic querying into database based on query values in URL
     if (Object.keys(req.query).length == 0) { //If no queries, just load the search bar
@@ -171,7 +175,23 @@ app.post('/cart', (req, res) => {
     }
 });
 
-
+app.post('/checkout', (req, res) => { //receive billing and address info from logged in user on checkout page. Create Order and Order_contains
+    db.query(insertCmds[4], [null, 'At warehouse', 'warehouse st. L4F5M1 Canada Ontario', req.body.address, req.session.user], (err, result) => { //make a new order record
+        if (err) console.log(err);
+        db.query(selectCmds[8], (err, result) => { //get latest record ID that we just inserted from Order
+            if (err) console.log(err);
+            Object.keys(req.session.cart).forEach(async(ISBN) => {
+                await new Promise((resolve, reject) => {
+                    db.query(insertCmds[5], [result[0].order_ID, ISBN, req.session.cart[ISBN]], (err, result) => { //insert linking record in order_contains
+                        return resolve();
+                    });
+                });
+            });
+            res.setHeader('Content-Type', 'application/json')
+            res.status(302).send({ID: result[0].order_ID});
+        });
+    });
+});
 
 
 app.listen(8000, () => {

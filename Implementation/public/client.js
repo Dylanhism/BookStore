@@ -96,7 +96,9 @@ function submitOrder() {
     xhttp.responseType = "json";
     xhttp.onreadystatechange = function () {
         if (xhttp.readyState == 4 && xhttp.status == 302) {
-            alert('Your order shipping ID is: ');
+            console.log(xhttp.response);
+            alert('Your order shipping ID is: '+xhttp.response.ID);
+            window.location.href='/';
         } else if (xhttp.readyState == 4 && xhttp.status == 406) { //Happens when you request to buy more than the max amount of books in the store currently
             alert('Some books in order could not be purchased. View cart to see remaining books');
         }
@@ -106,7 +108,7 @@ function submitOrder() {
     if (billingInfo.value == "" || addressInfo.value == "") {
         alert('Please enter valid billing and shipping address');
     } else {
-        let UserData = { billing: billingInfo.value, address: addressInfo };
+        let UserData = { billing: billingInfo.value, address: addressInfo.value };
         xhttp.send(JSON.stringify(UserData)); //Send billing and address info to create a record in Order table    
     }
 }

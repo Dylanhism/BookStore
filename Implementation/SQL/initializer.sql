@@ -48,7 +48,7 @@ CREATE TABLE User (
 CREATE TABLE Orders (
     order_ID int NOT NULL AUTO_INCREMENT,
     order_status varchar(15) NOT NULL,
-    order_location varchar(30) NOT NULL,
+    order_location varchar(50) NOT NULL,
     shipping_addr varchar(50) NOT NULL,
     username varchar(15) NOT NULL,
     PRIMARY KEY (order_ID),
@@ -57,6 +57,7 @@ CREATE TABLE Orders (
 CREATE TABLE Order_contains ( /*Connecting table for order and book*/
     order_ID int NOT NULL,
     ISBN char(13) NOT NULL,
+    quantity int NOT NULL,
     PRIMARY KEY (order_ID, ISBN),
     FOREIGN KEY (order_ID) REFERENCES Orders(order_ID),
     FOREIGN KEY (ISBN) REFERENCES Book(ISBN)
